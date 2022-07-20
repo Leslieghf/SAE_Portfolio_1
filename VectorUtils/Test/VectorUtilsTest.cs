@@ -10,15 +10,14 @@
                 Console.WriteLine($"\t{testName}");
             }
 
-            Console.WriteLine();
-            Console.WriteLine("Available Method Tests");
+            Console.WriteLine("\nAvailable Method Tests");
             foreach (string testName in Enum.GetNames(typeof(VectorUtilTestMethod)))
             {
                 Console.WriteLine($"\t{testName}");
             }
 
             SelectTest:
-            Console.WriteLine("\nPlease enter a valid test name:");
+            Console.WriteLine("\nPlease enter a valid test:");
             string? consoleInput = Console.ReadLine();
             bool parseOperatorSuccess = Enum.TryParse(consoleInput, out VectorUtilTestOperator testOperator);
             bool parseMethodSuccess = Enum.TryParse(consoleInput, out VectorUtilTestMethod testMethod);
