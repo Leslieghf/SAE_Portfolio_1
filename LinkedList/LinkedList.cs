@@ -30,6 +30,19 @@ namespace LinkedList
             {
                 Head = newNode;
                 Tail = newNode;
+                Count++;
+                return;
+            }
+            AddBefore(Head, newNode);
+        }
+        public void AddFirst(T newContent)
+        {
+            Node newNode = new Node(newContent);
+            if (Head == null)
+            {
+                Head = newNode;
+                Tail = newNode;
+                Count++;
                 return;
             }
             AddBefore(Head, newNode);
@@ -41,9 +54,25 @@ namespace LinkedList
                 AddFirst(newNode);
             }
         }
+        public void AddFirst(IEnumerable<T> newContents)
+        {
+            foreach (T newContent in newContents.Reverse())
+            {
+                AddFirst(newContent);
+            }
+        }
 
         public void AddLast(Node newNode)
         {
+            if (Tail == null)
+            {
+                AddFirst(newNode);
+            }
+            AddAfter(Tail, newNode);
+        }
+        public void AddLast(T newContent)
+        {
+            Node newNode = new Node(newContent);
             if (Tail == null)
             {
                 AddFirst(newNode);
@@ -57,9 +86,37 @@ namespace LinkedList
                 AddLast(newNode);
             }
         }
+        public void AddLast(IEnumerable<T> newContents)
+        {
+            foreach (T newContent in newContents)
+            {
+                AddLast(newContent);
+            }
+        }
 
         public void AddBefore(Node before, Node newNode)
         {
+            if (newNode == Head && newNode == Tail)
+            {
+                return;
+            }
+            Remove(newNode);
+            newNode.Previous = before.Previous;
+            newNode.Next = before;
+            if (before.Previous == null)
+            {
+                Head = newNode;
+            }
+            else
+            {
+                before.Previous.Next = newNode;
+            }
+            before.Previous = newNode;
+            Count++;
+        }
+        public void AddBefore(Node before, T newContent)
+        {
+            Node newNode = new Node(newContent);
             if (newNode == Head && newNode == Tail)
             {
                 return;
@@ -85,9 +142,37 @@ namespace LinkedList
                 AddBefore(before, newNode);
             }
         }
+        public void AddBefore(Node before, IEnumerable<T> newContents)
+        {
+            foreach (T newContent in newContents)
+            {
+                AddBefore(before, newContent);
+            }
+        }
 
         public void AddAfter(Node after, Node newNode)
         {
+            if (newNode == Head && newNode == Tail)
+            {
+                return;
+            }
+            Remove(newNode);
+            newNode.Previous = after;
+            newNode.Next = after.Next;
+            if (after.Next == null)
+            {
+                Tail = newNode;
+            }
+            else
+            {
+                after.Next.Previous = newNode;
+            }
+            after.Next = newNode;
+            Count++;
+        }
+        public void AddAfter(Node after, T newContent)
+        {
+            Node newNode = new Node(newContent);
             if (newNode == Head && newNode == Tail)
             {
                 return;
@@ -111,6 +196,13 @@ namespace LinkedList
             foreach (Node newNode in newNodes.Reverse())
             {
                 AddAfter(after, newNode);
+            }
+        }
+        public void AddAfter(Node after, IEnumerable<T> newContents)
+        {
+            foreach (T newContent in newContents.Reverse())
+            {
+                AddAfter(after, newContent);
             }
         }
 
@@ -138,11 +230,44 @@ namespace LinkedList
                 AddLast(newNode);
             }
         }
+        public void AddAtPosition(int position, T newContent)
+        {
+            Node newNode = new Node(newContent);
+            if (position == 1)
+            {
+                AddFirst(newNode);
+                return;
+            }
+
+            Node? node = Head;
+            int currentPosition = 1;
+            while (node != null && currentPosition != position)
+            {
+                node = node.Next;
+                currentPosition += 1;
+            }
+            if (node != null)
+            {
+                AddBefore(node, newNode);
+            }
+            else
+            {
+                AddLast(newNode);
+            }
+        }
         public void AddAtPosition(int position, IEnumerable<Node> newNodes)
         {
             foreach (Node newNode in newNodes)
             {
                 AddAtPosition(position, newNode);
+                position++;
+            }
+        }
+        public void AddAtPosition(int position, IEnumerable<T> newContents)
+        {
+            foreach (T newContent in newContents)
+            {
+                AddAtPosition(position, newContent);
                 position++;
             }
         }
@@ -217,7 +342,7 @@ namespace LinkedList
 
         public void Remove(Node node)
         {
-            if (!HasNode(node))
+            if (!Contains(node))
             {
                 return;
             }
@@ -241,7 +366,15 @@ namespace LinkedList
             node.Next = null;
             Count--;
         }
-
+        public void Remove(T content)
+        {
+            Node? node = GetNode(content);
+            if (node == null)
+            {
+                return;
+            }
+            Remove(node);
+        }
         public void Remove(IEnumerable<Node> nodes)
         {
             foreach (Node node in nodes)
@@ -249,12 +382,46 @@ namespace LinkedList
                 Remove(node);
             }
         }
+        public void Remove(IEnumerable<T> contents)
+        {
+            foreach (T content in contents)
+            {
+                Remove(content);
+            }
+        }
+        public void RemoveAll(T content)
+        {
+            Node[] nodes = GetNodes(content);
+            if (nodes.Count() == 0)
+            {
+                return;
+            }
+            Remove(nodes);
+        }
+        public void RemoveAll(IEnumerable<T> contents)
+        {
+            foreach (T content in contents)
+            {
+                RemoveAll(content);
+            }
+        }
 
-        public bool HasNode(Node checkNode)
+        public bool Contains(Node checkNode)
         {
             foreach (Node node in GetAllNodes())
             {
                 if (node.Equals(checkNode))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool Contains(T checkContent)
+        {
+            foreach (Node node in GetAllNodes())
+            {
+                if (node.Content.Equals(checkContent))
                 {
                     return true;
                 }
@@ -274,7 +441,6 @@ namespace LinkedList
             node.Previous = null;
             node.Next = null;
         }
-
         public static void ClearBonds(IEnumerable<Node> nodes)
         {
             foreach (Node node in nodes)
@@ -283,6 +449,31 @@ namespace LinkedList
             }
         }
 
+        public Node? GetNode(T content)
+        {
+            Node[] nodes = GetAllNodes();
+            foreach (Node node in nodes)
+            {
+                if (node.Content.Equals(content))
+                {
+                    return node;
+                }
+            }
+            return null;
+        }
+        public Node[] GetNodes(T content)
+        {
+            Node[] nodes = GetAllNodes();
+            List<Node> nodesList = new List<Node>();
+            foreach (Node node in nodes)
+            {
+                if (node.Content.Equals(content))
+                {
+                    nodesList.Add(node);
+                }
+            }
+            return nodesList.ToArray();
+        }
         public Node[] GetAllNodes(bool reversed = false)
         {
             if (Head == null || Count == 0)
