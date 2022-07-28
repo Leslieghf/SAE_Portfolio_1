@@ -1,7 +1,7 @@
 ﻿using Utilities;
 using LL = LinkedList;
 using AVL = AVLTree;
-using VT = VectorUtils.Test;
+using VectorUtils.Test;
 
 public class Program
 {
@@ -72,17 +72,23 @@ public class Program
     }
     public static void TestMonsterFight()
     {
-        GameManager gameManager = new GameManager();
-
-        Console.WriteLine("\n\n\nPress any key to end the project demonstration!");
-        Console.ReadKey();
+        bool repeat;
+        do
+        {
+            Console.Clear();
+            GameManager gameManager = new GameManager();
+            repeat = ConsoleWrapper.ReadBool("\n\nDo you want to try again?");
+        } while (repeat);
     }
     public static void TestVectorUtils()
     {
-        VT.VectorUtilsTest vectorUtilsTest = new VT.VectorUtilsTest();
-
-        Console.WriteLine("\n\n\nPress any key to end the project demonstration!");
-        Console.ReadKey();
+        bool repeat;
+        do
+        {
+            Console.Clear();
+            VectorUtilsTest vectorUtilsTest = new VectorUtilsTest();
+            repeat = ConsoleWrapper.ReadBool("\n\nDo you want to try again?");
+        } while (repeat);
     }
 
     public enum Project

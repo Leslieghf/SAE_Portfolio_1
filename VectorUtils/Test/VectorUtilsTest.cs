@@ -21,32 +21,67 @@ namespace VectorUtils.Test
         SelectTest:
             Console.WriteLine("\nPlease enter a valid test:");
             string? consoleInput = Console.ReadLine();
+            if (consoleInput == null)
+            {
+                Console.WriteLine("\nInvalid input!");
+                goto SelectTest;
+            }
+
             bool parseOperatorSuccess = Enum.TryParse(consoleInput, out VectorUtilTestOperator testOperator);
             bool parseMethodSuccess = Enum.TryParse(consoleInput, out VectorUtilTestMethod testMethod);
+
+            int inputInt = int.Parse(consoleInput);
+            bool inOperatorBounds = false;
+            bool inMethodBounds = false;
+            if (inputInt >= 0 && inputInt < Enum.GetValues<VectorUtilTestOperator>().Length)
+            {
+                inOperatorBounds = true;
+            }
+            if (inputInt >= 0 && inputInt < Enum.GetValues<VectorUtilTestMethod>().Length)
+            {
+                inMethodBounds = true;
+            }
+
+            if (!inOperatorBounds)
+            {
+                parseOperatorSuccess = false;
+            }
+            if (!inMethodBounds)
+            {
+                parseMethodSuccess = false;
+            }
 
             if (!parseOperatorSuccess && !parseMethodSuccess)
             {
                 Console.WriteLine("\nInvalid input!");
                 goto SelectTest;
             }
+            else if (parseOperatorSuccess && parseMethodSuccess)
+            {
+                Console.WriteLine("\nYou entered something, which is ambiguous between a testable method and a testable operator. Please choose one of them:\n");
+                bool doMethodTest = ConsoleWrapper.ReadBool("Enter 'y' for the corresponding method, Enter 'n' for the corresponding operator");
+                if (doMethodTest)
+                {
+                    TestMethod(testMethod);
+                }
+                else
+                {
+                    TestOperator(testOperator);
+                }
+            }
             else if (parseOperatorSuccess)
             {
-                Console.Clear();
                 TestOperator(testOperator);
             }
             else if (parseMethodSuccess)
             {
-                Console.Clear();
                 TestMethod(testMethod);
             }
-
-
-
         }
 
         public static void TestOperator(VectorUtilTestOperator vectorUtilTestOperator)
         {
-            Console.WriteLine();
+            Console.Clear();
             switch (vectorUtilTestOperator)
             {
                 case VectorUtilTestOperator.VectorNegate:
@@ -189,6 +224,7 @@ namespace VectorUtils.Test
         }
         public static void TestMethod(VectorUtilTestMethod vectorUtilTestMethod)
         {
+            Console.Clear();
             switch (vectorUtilTestMethod)
             {
                 case VectorUtilTestMethod.Length:
@@ -376,7 +412,7 @@ namespace VectorUtils.Test
         }
         public static Vector3 ReadVector3(string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine(message + "\n");
             int x = ConsoleWrapper.ReadInt("Please enter an integer for the x component:");
             int y = ConsoleWrapper.ReadInt("Please enter an integer for the y component:");
             int z = ConsoleWrapper.ReadInt("Please enter an integer for the z component:");
@@ -392,7 +428,7 @@ namespace VectorUtils.Test
         VectorVectorSubtraction,
         VectorIntSubtraction,
         VectorIntMultiplication,
-        VectorIntDivision,
+        VectorIntDivision
     }
 
     public enum VectorUtilTestMethod

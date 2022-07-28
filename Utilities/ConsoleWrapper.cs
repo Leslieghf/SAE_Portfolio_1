@@ -1,5 +1,6 @@
 ﻿using System;
 using VectorUtils.Test;
+using VectorUtils;
 
 namespace Utilities
 {
@@ -7,8 +8,7 @@ namespace Utilities
     {
         public static TEnum ReadEnum<TEnum>() where TEnum : struct, Enum
         {
-            SelectEnum:
-            Clear();
+        SelectEnum:
             WriteEnum<TEnum>();
 
             Console.WriteLine($"\nPlease enter a valid {typeof(TEnum).Name}:");
@@ -35,7 +35,6 @@ namespace Utilities
         {
             do
             {
-                Clear();
                 Console.WriteLine(message);
                 string? consoleInput = Console.ReadLine();
                 if (int.TryParse(consoleInput, out int inputInt) && inputInt >= min && inputInt <= max)
@@ -43,7 +42,6 @@ namespace Utilities
                     return inputInt;
                 }
                 Console.WriteLine("Invalid input, retry!\n");
-                Console.ReadKey();
             } while (true);
         }
 
@@ -51,7 +49,6 @@ namespace Utilities
         {
             do
             {
-                Clear();
                 Console.WriteLine(message);
                 string? consoleInput = Console.ReadLine();
                 if (float.TryParse(consoleInput, out float inputFloat) && inputFloat >= min && inputFloat <= max)
@@ -59,7 +56,6 @@ namespace Utilities
                     return inputFloat;
                 }
                 Console.WriteLine("Invalid input, retry!\n");
-                Console.ReadKey();
             } while (true);
         }
 
@@ -67,7 +63,6 @@ namespace Utilities
         {
             do
             {
-                Clear();
                 Console.WriteLine(message);
                 Console.WriteLine("'y' for yes, 'n' for no");
                 string? consoleInput = Console.ReadLine();
@@ -83,7 +78,6 @@ namespace Utilities
                     }
                 }
                 Console.WriteLine("Invalid input, retry!\n");
-                Console.ReadKey();
             } while (true);
         }
 
@@ -91,5 +85,5 @@ namespace Utilities
         {
             Console.Clear();
         }
-    } 
+    }
 }
