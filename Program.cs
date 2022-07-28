@@ -1,5 +1,4 @@
-﻿using System;
-using Utilities;
+﻿using Utilities;
 using LL = LinkedList;
 using AVL = AVLTree;
 using VT = VectorUtils.Test;
@@ -47,9 +46,9 @@ public class Program
         };
         AVL.AVLTree<int> myAVLTree = new AVL.AVLTree<int>(contentComparer);
         myAVLTree.Add(TestUtils.RandomInts(50, 0, 100));
-        AVLTreePrinter.Print<int>(myAVLTree.root);
+        AVLTreePrinter.Print(myAVLTree.Root);
         myAVLTree.Delete(TestUtils.RandomInts(50, 0, 100));
-        AVLTreePrinter.Print<int>(myAVLTree.root);
+        AVLTreePrinter.Print(myAVLTree.Root);
 
         Console.WriteLine("\n\n\nPress any key to end the project demonstration!");
         Console.ReadKey();

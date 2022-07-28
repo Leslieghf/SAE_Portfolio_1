@@ -22,7 +22,6 @@ public static class AVLTreePrinter
         var next = root;
         for (int level = 0; next != null; level++)
         {
-            //originally ToString(" 0 ")
             NodeInfo<T> item = new NodeInfo<T> { Node = next, Text = next.content.ToString() };
             if (level < last.Count)
             {

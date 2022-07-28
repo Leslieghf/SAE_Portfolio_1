@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AVLTree
+﻿namespace AVLTree
 {
     public class AVLTree<T> where T : IComparable
     {
-        public Node? root { get; private set; }
+        public Node? Root { get; private set; }
         public Func<T, T, int> ContentComparer;
 
         public AVLTree(Func<T, T, int> contentComparer)
@@ -28,13 +22,13 @@ namespace AVLTree
         public void Add(T content)
         {
             Node newItem = new Node(content);
-            if (root == null)
+            if (Root == null)
             {
-                root = newItem;
+                Root = newItem;
             }
             else
             {
-                root = RecursiveInsert(root, newItem);
+                Root = RecursiveInsert(Root, newItem);
             }
         }
         public void Add(IEnumerable<T> contents)
@@ -47,7 +41,7 @@ namespace AVLTree
 
         public void Delete(T content)
         {
-            root = Delete(root, content);
+            Root = Delete(Root, content);
         }
         public void Delete(IEnumerable<T> contents)
         {
@@ -62,9 +56,14 @@ namespace AVLTree
             return Find(content) != null;
         }
 
+        public void Clear()
+        {
+            Root = null;
+        }
+
         public Node? Find(T content)
         {
-            return Find(content, root);
+            return Find(content, Root);
         }
 
         public void DisplayTree()
@@ -79,12 +78,12 @@ namespace AVLTree
                 }
             }
 
-            if (root == null)
+            if (Root == null)
             {
                 Console.WriteLine("The tree is empty!");
                 return;
             }
-            InOrderDisplayTree(root);
+            InOrderDisplayTree(Root);
             Console.WriteLine();
         }
         #endregion
