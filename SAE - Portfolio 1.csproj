@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Folder Include="MonsterFight\" />
-    <Folder Include="AVLTree\" />
   </ItemGroup>
 
 </Project>

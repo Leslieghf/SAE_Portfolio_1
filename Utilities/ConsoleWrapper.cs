@@ -31,33 +31,59 @@ namespace Utilities
             }
         }
 
-        public static int ReadInt(string message)
+        public static int ReadInt(string message, int min = int.MinValue, int max = int.MaxValue)
         {
             do
             {
                 Clear();
                 Console.WriteLine(message);
                 string? consoleInput = Console.ReadLine();
-                if (int.TryParse(consoleInput, out int inputInt))
+                if (int.TryParse(consoleInput, out int inputInt) && inputInt >= min && inputInt <= max)
                 {
                     return inputInt;
                 }
                 Console.WriteLine("Invalid input, retry!\n");
+                Console.ReadKey();
             } while (true);
         }
 
-        public static float ReadFloat(string message)
+        public static float ReadFloat(string message, float min = float.MinValue, float max = float.MaxValue)
         {
             do
             {
                 Clear();
                 Console.WriteLine(message);
                 string? consoleInput = Console.ReadLine();
-                if (float.TryParse(consoleInput, out float inputFloat))
+                if (float.TryParse(consoleInput, out float inputFloat) && inputFloat >= min && inputFloat <= max)
                 {
                     return inputFloat;
                 }
                 Console.WriteLine("Invalid input, retry!\n");
+                Console.ReadKey();
+            } while (true);
+        }
+
+        public static bool ReadBool(string message)
+        {
+            do
+            {
+                Clear();
+                Console.WriteLine(message);
+                Console.WriteLine("'y' for yes, 'n' for no");
+                string? consoleInput = Console.ReadLine();
+                if (consoleInput != null)
+                {
+                    if (consoleInput.ToLower() == "y")
+                    {
+                        return true;
+                    }
+                    if (consoleInput.ToLower() == "n")
+                    {
+                        return false;
+                    }
+                }
+                Console.WriteLine("Invalid input, retry!\n");
+                Console.ReadKey();
             } while (true);
         }
 

@@ -13,10 +13,10 @@ public abstract class Monster
     public Monster(string name)
     {
         this.name = name;
-        health = ConsoleWrapper.ReadFloat("Please enter a Health value:");
-        damage = ConsoleWrapper.ReadFloat("Please enter a Damage value:");
-        defense = ConsoleWrapper.ReadFloat("Please enter a Defense value:");
-        speed = ConsoleWrapper.ReadFloat("Please enter a Speed value:");
+        health = ConsoleWrapper.ReadFloat("Please enter a Health value:", 0);
+        damage = ConsoleWrapper.ReadFloat("Please enter a Damage value:", 0);
+        defense = ConsoleWrapper.ReadFloat("Please enter a Defense value:", 0);
+        speed = ConsoleWrapper.ReadFloat("Please enter a Speed value:", 0);
         isAlive = true;
     }
 
